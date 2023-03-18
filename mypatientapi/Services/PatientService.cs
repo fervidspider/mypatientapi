@@ -31,5 +31,7 @@ namespace mypatientapi.Services
         public async Task<Patient?> GetAsync(string id) =>
         await _patientCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
+       
+
     }
 }
