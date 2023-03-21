@@ -16,25 +16,50 @@ namespace mypatientapi.Controllers
 
         private readonly PatientService _patientService;
 
-        public PatientController(PatientService booksService) =>
-            _patientService = booksService;
+        public PatientController(PatientService patientService) =>
+            _patientService = patientService;
 
         // GET: api/values
         [HttpGet]
         public async Task<List<Patient>> Get() =>
               await _patientService.GetAsync();
 
+        // GET: api/values/6410f0444de06cfa95dd08ab
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Patient>> Get(string id)
         {
-            var book = await _patientService.GetAsync(id);
+            var patient = await _patientService.GetAsync(id);
 
-            if (book is null)
+            if (patient is null)
             {
                 return NotFound();
             }
 
-            return book;
+            return patient;
+        }
+
+        [HttpPost]
+        
+        public async Task<IActionResult> Post([FromBody]Patient patient)
+        {
+            await _patientService.CreateAsync(patient);
+
+            return CreatedAtAction(nameof(Get), new { id = patient.Id }, patient);
+        }
+
+        [HttpDelete("{id:length(24)}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var patient = await _patientService.GetAsync(id);
+
+            if (patient is null)
+            {
+                return NotFound();
+            }
+
+            await _patientService.RemoveAsync(id);
+
+            return NoContent();
         }
 
     }

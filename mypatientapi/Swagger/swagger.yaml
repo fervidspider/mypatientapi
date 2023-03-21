@@ -1,0 +1,131 @@
+﻿openapi: 3.0.3
+info:
+  title: MyPatientAPI
+  version: 1.0.0
+  description: .NET API for the mypatient application.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://localhost:7192
+tags:
+  - name: Patients
+    description: Everything relating to the patients collection
+  - name: Appointments
+    description: Everything relating to the appointments collection
+  - name: Records
+    description: Everything relating to the patient collection
+paths:
+  /api/Patient:
+    get:
+      tags:
+        - Patients
+      summary: Returns list of all patients
+      operationId: getPatients
+      responses:
+        '200':
+          description: Success
+          content:
+
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Patient'
+              text/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Patient'
+  /api/Patient/{id}:
+    get:
+      tags:
+        - Patients
+      summary: Returns a patient by patientid
+      operationId: getPatientByID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful Operation
+        '404':
+          description: Patient not found
+
+  /api/Appointment:
+    get:
+      tags:
+        - Appointments
+      summary: Returns list of all appointments
+      operationId: getAppointments
+      responses:
+        '200':
+          description: Success
+          content:
+
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Appointment'
+              text/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Appointment'
+
+components:
+  schemas:
+    Patient:
+      type: object
+      properties:
+        id:
+          type: string
+          nullable: true
+        firstname:
+          type: string
+          nullable: true
+        lastname:
+          type: string
+          nullable: true
+        skills:
+          type: array
+          items:
+            type: string
+          
+    Appointment:
+      type: object
+      properties:
+        id:
+          type: string
+          nullable: true
+        patientid:
+          type: object
+          items: 
+            $ref: '#/components/schemas/MongoDBRef' 
+        title:
+          type: string
+          nullable: true
+        host:
+          type: string
+          nullable: true
+        datetime:
+          type: string
+          format: date-time
+
+    MongoDBRef:
+      type: object
+      properties:
+        "$ref":
+          type: string
+          nullable: true
+        "$id":
+          type: string
+          nullable: true

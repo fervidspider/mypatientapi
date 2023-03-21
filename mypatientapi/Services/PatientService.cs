@@ -13,16 +13,9 @@ namespace mypatientapi.Services
     {
         private readonly IMongoCollection<Patient> _patientCollection;
 
-        public PatientService(IOptions<DatabaseSettings> DatabaseSettings)
+        public PatientService(IMongoCollection<Patient> patientCollection)
         {
-            var mongoClient = new MongoClient(
-                DatabaseSettings.Value.ConnectionString);
-
-            var mongoDatabase = mongoClient.GetDatabase(
-                DatabaseSettings.Value.DatabaseName);
-
-            _patientCollection = mongoDatabase.GetCollection<Patient>(
-                DatabaseSettings.Value.CollectionName);
+            _patientCollection = patientCollection;
         }
 
         public async Task<List<Patient>> GetAsync() =>
@@ -31,7 +24,11 @@ namespace mypatientapi.Services
         public async Task<Patient?> GetAsync(string id) =>
         await _patientCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-       
+        public async Task CreateAsync(Patient patient) =>
+        await _patientCollection.InsertOneAsync(patient);
+
+        public async Task RemoveAsync(string id) =>
+        await _patientCollection.DeleteOneAsync(x => x.Id == id);
 
     }
 }

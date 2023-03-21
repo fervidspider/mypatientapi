@@ -11,31 +11,33 @@ namespace mypatientapi.Controllers
 {
     [Controller]
     [Route("api/[controller]")]
-    public class PatientController : Controller
+    public class AppointmentController : Controller
     {
 
-        private readonly PatientService _patientService;
+        private readonly AppointmentService _appointmentService;
 
-        public PatientController(PatientService booksService) =>
-            _patientService = booksService;
+        public AppointmentController(AppointmentService appointmentService) =>
+            _appointmentService = appointmentService;
 
         // GET: api/values
         [HttpGet]
-        public async Task<List<Patient>> Get() =>
-              await _patientService.GetAsync();
+        public async Task<List<Appointment>> Get() =>
+              await _appointmentService.GetAsync();
 
         [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<Patient>> Get(string id)
+        public async Task<ActionResult<Appointment>> Get(string id)
         {
-            var book = await _patientService.GetAsync(id);
+            var appointment = await _appointmentService.GetAsync(id);
 
-            if (book is null)
+            if (appointment is null)
             {
                 return NotFound();
             }
 
-            return book;
+            return appointment;
         }
+
+
 
     }
 }

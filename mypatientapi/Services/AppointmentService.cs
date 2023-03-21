@@ -9,27 +9,20 @@ namespace mypatientapi.Services
 
 {
 
-    public class PatientService
+    public class AppointmentService
     {
-        private readonly IMongoCollection<Patient> _patientCollection;
+        private readonly IMongoCollection<Appointment> _appointmentCollection;
 
-        public PatientService(IOptions<DatabaseSettings> DatabaseSettings)
+        public AppointmentService(IMongoCollection<Appointment> appointmentCollection)
         {
-            var mongoClient = new MongoClient(
-                DatabaseSettings.Value.ConnectionString);
-
-            var mongoDatabase = mongoClient.GetDatabase(
-                DatabaseSettings.Value.DatabaseName);
-
-            _patientCollection = mongoDatabase.GetCollection<Patient>(
-                DatabaseSettings.Value.CollectionName);
+            _appointmentCollection = appointmentCollection;
         }
 
-        public async Task<List<Patient>> GetAsync() =>
-            await _patientCollection.Find(_ => true).ToListAsync();
+        public async Task<List<Appointment>> GetAsync() =>
+            await _appointmentCollection.Find(_ => true).ToListAsync();
 
-        public async Task<Patient?> GetAsync(string id) =>
-        await _patientCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        public async Task<Appointment?> GetAsync(string id) =>
+        await _appointmentCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
        
 
