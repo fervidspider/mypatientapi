@@ -42,9 +42,35 @@ namespace mypatientapi.Controllers
         
         public async Task<IActionResult> Post([FromBody]Patient patient)
         {
+
+            patient._createdOn = DateTime.UtcNow;
+            patient._lastEdited = DateTime.UtcNow;
+
             await _patientService.CreateAsync(patient);
 
             return CreatedAtAction(nameof(Get), new { id = patient.Id }, patient);
+        }
+
+        [HttpPut("{id:length(24)}")]
+        public async Task<IActionResult> Update(string id, [FromBody]Patient updatedPatient)
+        {
+            var patient = await _patientService.GetAsync(id);
+
+            if (patient is null)
+            {
+                return NotFound();
+            }
+
+            if (patient.firstname is not null)
+            {
+
+            }
+
+            updatedPatient.Id = patient.Id;
+
+            await _patientService.UpdateAsync(id, updatedPatient);
+
+            return NoContent();
         }
 
         [HttpDelete("{id:length(24)}")]

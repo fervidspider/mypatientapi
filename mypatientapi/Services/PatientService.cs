@@ -27,6 +27,9 @@ namespace mypatientapi.Services
         public async Task CreateAsync(Patient patient) =>
         await _patientCollection.InsertOneAsync(patient);
 
+        public async Task UpdateAsync(string id, Patient updatedPatient) =>
+        await _patientCollection.ReplaceOneAsync(x => x.Id == id, updatedPatient);
+
         public async Task RemoveAsync(string id) =>
         await _patientCollection.DeleteOneAsync(x => x.Id == id);
 
