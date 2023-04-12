@@ -24,7 +24,14 @@ namespace mypatientapi.Services
         public async Task<Appointment?> GetAsync(string id) =>
         await _appointmentCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-       
+        public async Task CreateAsync(Appointment appointment) =>
+        await _appointmentCollection.InsertOneAsync(appointment);
+
+        public async Task UpdateAsync(string id, Appointment updatedAppointment) =>
+        await _appointmentCollection.ReplaceOneAsync(x => x.Id == id, updatedAppointment);
+
+        public async Task RemoveAsync(string id) =>
+        await _appointmentCollection.DeleteOneAsync(x => x.Id == id);
 
     }
 }

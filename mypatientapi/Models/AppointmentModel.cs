@@ -26,6 +26,8 @@ namespace mypatientapi.Models
 
 		public DateTime datetime { get; set; }
 
-	}
+        public string notes { get; set; } = null!;
+
+    }
 }
 

@@ -37,6 +37,49 @@ namespace mypatientapi.Controllers
             return appointment;
         }
 
+        [HttpPost]
+
+        public async Task<IActionResult> Post([FromBody] Appointment appointment)
+        {
+
+
+            await _appointmentService.CreateAsync(appointment);
+
+            return CreatedAtAction(nameof(Get), new { id = appointment.Id }, appointment);
+        }
+
+        [HttpPut("{id:length(24)}")]
+        public async Task<IActionResult> Update(string id, [FromBody] Appointment updatedAppointment)
+        {
+            var patient = await _appointmentService.GetAsync(id);
+
+            if (patient is null)
+            {
+                return NotFound();
+            }
+
+            updatedAppointment.Id = patient.Id;
+
+            await _appointmentService.UpdateAsync(id, updatedAppointment);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id:length(24)}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var patient = await _appointmentService.GetAsync(id);
+
+            if (patient is null)
+            {
+                return NotFound();
+            }
+
+            await _appointmentService.RemoveAsync(id);
+
+            return NoContent();
+        }
+
 
 
     }

@@ -28,6 +28,7 @@ builder.Services.AddSingleton<AppointmentService>();
 
 
 
+builder.WebHost.UseUrls("https://localhost:7192", "https://192.168.10.118:7192");
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
