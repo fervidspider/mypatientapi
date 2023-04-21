@@ -19,7 +19,6 @@ namespace mypatientapi.Controllers
         public AppointmentController(AppointmentService appointmentService) =>
             _appointmentService = appointmentService;
 
-        // GET: api/values
         [HttpGet]
         public async Task<List<Appointment>> Get() =>
               await _appointmentService.GetAsync();
@@ -38,7 +37,6 @@ namespace mypatientapi.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> Post([FromBody] Appointment appointment)
         {
 

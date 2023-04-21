@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace mypatientapi.Models
 {
 	public class Address
