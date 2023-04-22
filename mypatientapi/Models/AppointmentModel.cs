@@ -18,6 +18,7 @@ namespace mypatientapi.Models
 		public string title { get; set; } = null!;
 		public string host { get; set; } = null!;
 		public DateTime datetime { get; set; }
+		public string status { get; set; } = null!;
         public string notes { get; set; } = null!;
 
     }

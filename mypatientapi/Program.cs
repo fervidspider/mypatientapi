@@ -5,8 +5,11 @@ using System.Xml.Linq;
 using mypatientapi.Models;
 using mypatientapi.Services;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.OData;
+using Microsoft.AspNetCore.Mvc.Core;
 using System.Reflection.Emit;
+using MySolution;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,15 +31,24 @@ builder.Services.AddSingleton<AppointmentService>();
 
 // Odata
 
+builder.Services.AddControllers()
+    .AddOData(opt => opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(50));
 
 
 
-builder.WebHost.UseUrls("https://localhost:7192", "https://192.168.10.92:7192");
+builder.WebHost.UseUrls("https://localhost:7192", "https://192.168.0.237:7192");
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+
+    c.OperationFilter<ODataOperationFilter>();
+
+});
+
+
 
 var app = builder.Build();
 
@@ -70,7 +82,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
 
 app.Run();
 

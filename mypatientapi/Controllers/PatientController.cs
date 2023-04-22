@@ -21,6 +21,7 @@ namespace mypatientapi.Controllers
             _patientService = patientService;
 
         // GET: api/values
+        [EnableQuery]
         [HttpGet]
         public async Task<List<Patient>> Get() =>
               await _patientService.GetAsync();

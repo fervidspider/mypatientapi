@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.OData.Query;
 using mypatientapi.Models;
 using mypatientapi.Services;
 
@@ -19,6 +19,7 @@ namespace mypatientapi.Controllers
         public AppointmentController(AppointmentService appointmentService) =>
             _appointmentService = appointmentService;
 
+        [EnableQuery]
         [HttpGet]
         public async Task<List<Appointment>> Get() =>
               await _appointmentService.GetAsync();
